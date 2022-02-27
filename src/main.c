@@ -1,8 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <stdbool.h>
+#include <ctype.h>
 
 char *generate_password(int length);
+bool has_alpha(char *pw);
+bool has_numeric(char *pw);
+// bool has_special(char *pw);
 
 int main(int argc, char** argv)
 {
@@ -13,9 +18,12 @@ int main(int argc, char** argv)
     }
 
     int len = atoi(argv[1]);
+    len = len >= 8 ? len : 2;
+
     srand(time(NULL));
 
     char *password = generate_password(len);
+    
     printf("%s\n", password);
 
     free(password);
@@ -30,7 +38,31 @@ char *generate_password(int length)
     {
         pass[i] = (rand() % 94) + 33;
     }
-
     pass[length] = '\0';
-    return pass;
+
+    return has_alpha(pass) && has_numeric(pass) 
+        ? pass 
+        : generate_password(length);
+}
+
+bool has_alpha(char *pw)
+{
+    for (int i = 0; pw[i] != '\0'; i++)
+    {
+        if (isalpha(pw[i]))
+            return true;
+    }
+
+    return false;
+}
+
+bool has_numeric(char *pw)
+{
+    for (int i = 0; pw[i] != '\0'; i++)
+    {
+        if (isdigit(pw[i]))
+            return true;
+    }
+
+    return false;
 }
