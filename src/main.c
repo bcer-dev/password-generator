@@ -18,7 +18,7 @@ int main(int argc, char** argv)
     }
 
     int len = atoi(argv[1]);
-    len = len >= 8 ? len : 2;
+    len = len >= 8 ? len : 8;
 
     srand(time(NULL));
 
@@ -35,9 +35,8 @@ char *generate_password(int length)
     char *pass = malloc(sizeof(char) * (length + 1));
 
     for (int i = 0; i < length; i++)
-    {
         pass[i] = (rand() % 94) + 33;
-    }
+
     pass[length] = '\0';
 
     return has_alpha(pass) && has_numeric(pass) 
